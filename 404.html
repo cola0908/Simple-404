@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 页面走丢了</title>
+    
+    <!-- 配置变量 - 请根据需要修改以下变量 -->
+    <script>
+        // 跳转目标网址 - 修改为您的主页地址
+        const REDIRECT_URL = 'https://github.com/cola0908/Simple-404';
+        
+        // 版权信息 - 修改为您的版权声明
+        const COPYRIGHT_INFO = 'COPYRIGHT © 2025 COLA_0908. ALL RIGHTS RESERVED.';
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            color: #2c3e50;
+        }
+
+        /* 背景动画星星 */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* 主容器 */
+        .container {
+            text-align: center;
+            color: white;
+            z-index: 10;
+            position: relative;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        /* 404数字动画 */
+        .error-code {
+            font-size: 8rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            color: #34495e;
+            animation: fadeIn 1.5s ease-out;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: -0.05em;
+        }
+
+        .error-code:hover {
+            transform: scale(1.05);
+            color: #3498db;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 标题和描述 */
+        .title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+            color: #2c3e50;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            color: #7f8c8d;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 倒计时样式 */
+        .countdown {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            border: 1px solid rgba(52, 73, 94, 0.1);
+            display: inline-block;
+            color: #34495e;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+        }
+
+        /* 按钮样式 */
+        .home-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+            background: #2980b9;
+        }
+
+        .home-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* 按钮波纹效果 */
+        .home-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .home-button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* 漂浮的小图标 */
+        .floating-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* 版权信息样式 */
+        .copyright {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: #5a6c7d;
+            text-align: center;
+            letter-spacing: 0.3px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .copyright:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            .title {
+                font-size: 2rem;
+            }
+            .description {
+                font-size: 1rem;
+            }
+            .countdown {
+                font-size: 1.2rem;
+            }
+            .copyright {
+                font-size: 0.7rem;
+                bottom: 15px;
+            }
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(52, 73, 94, 0.1);
+            border-radius: 2px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #3498db;
+            border-radius: 2px;
+            transition: width 1s linear;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景星星 -->
+    <div class="stars" id="stars"></div>
+    
+
+
+    <div class="container">
+        <div class="error-code" onclick="shake(this)">404</div>
+        <h1 class="title">页面未找到</h1>
+        <p class="description">抱歉，您访问的页面不存在或已被移动。<br>让我们帮您回到正确的地方。</p>
+        
+        <div class="countdown" id="countdown">
+            <span id="timer">10</span> 秒后自动返回主页
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <a href="#" class="home-button" id="homeButton">
+            返回首页
+        </a>
+    </div>
+
+    <!-- 版权信息 -->
+    <div class="copyright" id="copyrightText">
+        <!-- 版权信息将通过JavaScript动态设置 -->
+    </div>
+
+    <script>
+        // 创建星星背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 50;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 404数字摇摆效果
+        function shake(element) {
+            element.style.animation = 'none';
+            element.style.transform = 'translateX(0)';
+            
+            setTimeout(() => {
+                element.style.animation = 'bounce 2s infinite, shake 0.5s ease-in-out';
+            }, 10);
+            
+            // 添加摇摆动画
+            const shakeKeyframes = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-10px); }
+                    75% { transform: translateX(10px); }
+                }
+            `;
+            
+            if (!document.querySelector('#shake-style')) {
+                const style = document.createElement('style');
+                style.id = 'shake-style';
+                style.textContent = shakeKeyframes;
+                document.head.appendChild(style);
+            }
+        }
+
+        // 倒计时功能
+        let timeLeft = 10;
+        const timerElement = document.getElementById('timer');
+        const progressFill = document.getElementById('progressFill');
+        const countdownElement = document.getElementById('countdown');
+        
+        function updateCountdown() {
+            timerElement.textContent = timeLeft;
+            
+            // 更新进度条
+            const progressPercent = ((10 - timeLeft) / 10) * 100;
+            progressFill.style.width = progressPercent + '%';
+            
+            // 倒计时颜色变化
+            if (timeLeft <= 3) {
+                countdownElement.style.background = 'rgba(231, 76, 60, 0.1)';
+                countdownElement.style.color = '#e74c3c';
+                countdownElement.style.borderColor = 'rgba(231, 76, 60, 0.2)';
+            } else if (timeLeft <= 5) {
+                countdownElement.style.background = 'rgba(243, 156, 18, 0.1)';
+                countdownElement.style.color = '#f39c12';
+                countdownElement.style.borderColor = 'rgba(243, 156, 18, 0.2)';
+            }
+            
+            if (timeLeft <= 0) {
+                window.location.href = REDIRECT_URL;
+                return;
+            }
+            
+            timeLeft--;
+            setTimeout(updateCountdown, 1000);
+        }
+
+        // 鼠标移动视差效果
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            const icons = document.querySelectorAll('.icon');
+            icons.forEach((icon, index) => {
+                const speed = (index + 1) * 0.5;
+                const x = (mouseX - 0.5) * speed;
+                const y = (mouseY - 0.5) * speed;
+                icon.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // 按钮点击音效模拟（视觉反馈）
+        document.getElementById('homeButton').addEventListener('click', function(e) {
+            // 创建点击波纹效果
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // 初始化配置
+        function initializeConfig() {
+            // 设置跳转链接
+            document.getElementById('homeButton').href = REDIRECT_URL;
+            
+            // 设置版权信息
+            document.getElementById('copyrightText').textContent = COPYRIGHT_INFO;
+        }
+
+        // 初始化
+        createStars();
+        updateCountdown();
+        initializeConfig();
+        
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
